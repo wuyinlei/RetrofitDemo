@@ -3,11 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+    <Button
+        android:id="@+id/btnCall"
+        android:text="简单的请求"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnObservable"
+        android:text="观察者的请求"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

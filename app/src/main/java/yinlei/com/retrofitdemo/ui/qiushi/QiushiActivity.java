@@ -1,7 +1,7 @@
-package yinlei.com.retrofitdemo;
+package yinlei.com.retrofitdemo.ui.qiushi;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,46 +17,44 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
+import yinlei.com.retrofitdemo.bean.PageBean;
+import yinlei.com.retrofitdemo.R;
+import yinlei.com.retrofitdemo.constant.Constant;
+import yinlei.com.retrofitdemo.http.NetWorkApi;
+import yinlei.com.retrofitdemo.http.factory.ServerFactory;
+import yinlei.com.retrofitdemo.http.server.MyServerInterface;
 
-public class MainActivity extends AppCompatActivity {
-
-    private TextView tv_result;
+public class QiushiActivity extends AppCompatActivity {
 
     private List<PageBean.ItemsBean> mItemsBeen;
+
+    @Bind(R.id.tv_result)
+    TextView mTvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
-
-        initRetrofit();
-    }
-
-    private void initView() {
-        tv_result = (TextView) findViewById(R.id.result);
+        setContentView(R.layout.activity_qiushi);
+        ButterKnife.bind(this);
         mItemsBeen = new ArrayList<>();
+        initData();
     }
 
-    
-
-    private void initRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.BASE_URL)
-                .build();
-        MyServerInterface serverInterface = retrofit.create(MyServerInterface.class);
+    private void initData() {
+        MyServerInterface serverInterface = ServerFactory.createServiceFactory(MyServerInterface.class, Constant.BASE_URL);
         Call<ResponseBody> call = serverInterface.getLatestJsonString();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // I/yinlei: -------ThreadId------>1  证明返回来的数据是在主线程中的
                 Log.i("yinlei", "-------ThreadId------>" + Thread.currentThread().getId());
-                if (response.isSuccessful()) {
+                if (response.isSuccess()) {
                     String result = null;
                     try {
                         result = response.body().string();
@@ -71,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                                     }.getType());
                                     mItemsBeen.add(item);
                                 }
-                                Toast.makeText(MainActivity.this, "mItemsBeen.size():" + mItemsBeen.size(), Toast.LENGTH_SHORT).show();
                             }
+                            mTvResult.setText(result);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -84,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
+
 }

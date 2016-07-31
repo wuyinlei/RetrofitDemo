@@ -59,7 +59,6 @@ public class FirstExampleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first_example, container, false);
-
         mAppInfos = new ArrayList<>();
         return view;
     }
@@ -69,10 +68,14 @@ public class FirstExampleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new ApplicationAdapter(mAppInfos);
-        mRecyclerView.setAdapter(mAdapter);
+        initRecyclerView(view);
 
+        swipeRefreshSetting();
+
+
+    }
+
+    private void swipeRefreshSetting() {
 
         mSwipeRefreshLayout.setColorSchemeColors(getResources()
                 .getColor(R.color.myPrimaryDarkColor));
@@ -97,15 +100,24 @@ public class FirstExampleFragment extends Fragment {
             mHandler.postDelayed(() -> {
                 Toast.makeText(getActivity(), "没有更多数据了", Toast.LENGTH_SHORT).show();
                 mSwipeRefreshLayout.setRefreshing(false);
-            },3000);
+            }, 3000);
         });
+    }
 
+
+    private void initRecyclerView(View view) {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mAdapter = new ApplicationAdapter(mAppInfos);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
+    /**
+     * 请求数据
+     */
     private void refreshTheList() {
         getApps()
-                .toSortedList()
+                .toSortedList()  //返回一个排序后的 list
                 .subscribe(new Observer<List<AppInfo>>() {
                     @Override
                     public void onCompleted() {

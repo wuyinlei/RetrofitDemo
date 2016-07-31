@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerC
     // private TextView tv_result;
 /*
 
-    private List<PageBean.ItemsBean> mItemsBeen;
+    private List<ItemBeans.ItemsBean> mItemsBeen;
 
     @Bind(R.id.btnCall)
     Button btnCall;

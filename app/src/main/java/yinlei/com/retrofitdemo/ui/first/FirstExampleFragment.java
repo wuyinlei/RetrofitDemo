@@ -31,7 +31,9 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
 import rx.Scheduler;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import yinlei.com.retrofitdemo.App;
 import yinlei.com.retrofitdemo.R;
@@ -107,7 +109,9 @@ public class FirstExampleFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new ApplicationAdapter(mAppInfos);
+       mAdapter = new ApplicationAdapter(mAppInfos);
+        //mAdapter = new ApplicationAdapter();
+       // mAdapter.addData(mAppInfos);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -116,11 +120,14 @@ public class FirstExampleFragment extends Fragment {
      * 请求数据
      */
     private void refreshTheList() {
-        getApps()
-                .toSortedList()  //返回一个排序后的 list
+        getApps().toSortedList()
+                .take(4)
+                //.toSortedList()
+                //返回一个排序后的 list
                 .subscribe(new Observer<List<AppInfo>>() {
                     @Override
                     public void onCompleted() {
+                        mSwipeRefreshLayout.setRefreshing(false);
                         Toast.makeText(getActivity(), "完成了", Toast.LENGTH_SHORT).show();
                     }
 
@@ -134,6 +141,7 @@ public class FirstExampleFragment extends Fragment {
                     public void onNext(List<AppInfo> appInfos) {
                         mRecyclerView.setVisibility(View.VISIBLE);
                         mAdapter.addData(appInfos);
+                        //loadList(appInfos);
                         storeList(appInfos);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
@@ -176,7 +184,7 @@ public class FirstExampleFragment extends Fragment {
      */
     private Observable<AppInfo> getApps() {
         return Observable.create(subscriber -> {
-            List<AppInfoRich> apps = new ArrayList<AppInfoRich>();
+            List<AppInfoRich> apps = new ArrayList<>();
             final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -201,6 +209,48 @@ public class FirstExampleFragment extends Fragment {
             }
 
         });
+    }
+
+    /**
+     * 过滤系列，我们可以利用filter()方法来过滤我们观测序列中不想要的值例如我们只想要开头是C的应用
+     * 我们可以filter(appInfo ->appInfo.getName().startsWith("C"))
+     * <p>
+     * 如果不使用lambda表达式，是这样写的
+     * filter(new Func1<AppInfo, Boolean>() {
+     *
+     * @param apps
+     * @Override public Boolean call(AppInfo appInfo) {
+     * return appInfo.getName().startsWith("C");
+     * }
+     * })
+     * 我们传入一个新的Func1对象给filter()函数，Func1有一个AppInfo对象来作为他的参数类型并且返回
+     * Boolean对象，只要条件符合filter()函数，就会返回true，此时，值会发出去并且所有的观察者都会接受到
+     *
+     * 当然我们也可以检测null
+     */
+    private void loadList(List<AppInfo> apps) {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        Observable.from(apps)
+                /*.filter(appInfo ->
+                        appInfo.getName().startsWith("A"))*/
+                .subscribe(new Subscriber<AppInfo>() {
+                    @Override
+                    public void onCompleted() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getActivity(), "Something is wrong", Toast.LENGTH_SHORT).show();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(AppInfo appInfo) {
+                        mAppInfos.add(appInfo);
+                        mAdapter.addData(mAppInfos.size() - 1, appInfo);
+                    }
+                });
     }
 
     @Override

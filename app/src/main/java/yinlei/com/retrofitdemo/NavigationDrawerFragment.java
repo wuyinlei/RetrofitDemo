@@ -144,6 +144,17 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mCallbacks = null;
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUserLearnedDrawer = Boolean.valueOf(readShareSetting(getActivity(), PREF_USER_LEARNED_DRAWER, "false"));
+        if (savedInstanceState != null) {
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mFromSaveInstanceState = true;
+        }
+    }
+
     private void selectItem(int currentSelectedPosition) {
         mCurrentSelectedPosition = currentSelectedPosition;
         if (mDrawerLayout != null) {

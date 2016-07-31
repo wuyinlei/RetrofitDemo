@@ -32,12 +32,7 @@ public class ProgressDialogHandler extends Handler {
             pd.setCancelable(cancelable);
 
             if (cancelable) {
-                pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        mProgressCancelListener.onCancelProgress();
-                    }
-                });
+                pd.setOnCancelListener(dialogInterface -> mProgressCancelListener.onCancelProgress());
             }
 
             if (!pd.isShowing()) {

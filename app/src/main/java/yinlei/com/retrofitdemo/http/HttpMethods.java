@@ -16,6 +16,7 @@ import yinlei.com.retrofitdemo.ApiException;
 import yinlei.com.retrofitdemo.bean.HttpResult;
 import yinlei.com.retrofitdemo.bean.ItemBeans;
 import yinlei.com.retrofitdemo.constant.Constant;
+import yinlei.com.retrofitdemo.http.factory.ServerFactoryObserver;
 import yinlei.com.retrofitdemo.http.server.MyServerInterface;
 
 /**
@@ -30,12 +31,12 @@ public class HttpMethods {
     private static final int DEFAULT_TIMEOUT = 5;
 
     private Retrofit retrofit;
-    private MyServerInterface movieService;
+    private MyServerInterface itemServer;
 
     //构造方法私有
     private HttpMethods() {
         //手动创建一个OkHttpClient并设置超时时间
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+       /* OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
         retrofit = new Retrofit.Builder()
@@ -43,9 +44,9 @@ public class HttpMethods {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(Constant.BASE_URL)
-                .build();
+                .build();*/
 
-        movieService = retrofit.create(MyServerInterface.class);
+        itemServer = ServerFactoryObserver.createServiceFactory(MyServerInterface.class,Constant.BASE_URL);
     }
 
     //在访问HttpMethods时创建单例
@@ -70,12 +71,18 @@ public class HttpMethods {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);*/
-        Observable observable = movieService.getQiuShiJsonString()
-                .map(new HttpResultFunc<List<ItemBeans>>());
+        Observable observable = itemServer.getQiuShiJsonString()
+                .map(new HttpResultFunc<>()).filter(itemBeanses -> itemBeanses!=null);
 
         toSubscribe(observable, subscriber);
     }
 
+    /**
+     *
+     * @param o   observable  被观察者
+     * @param s   subscriber  观察者  订阅者
+     * @param <T>   绑定订阅关系
+     */
     private <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {
         o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

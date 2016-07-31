@@ -28,12 +28,18 @@ public class ProgressSubscriber<T> extends Subscriber<T> implements ProgressCanc
         mProgressDialogHandler = new ProgressDialogHandler(context, this, true);
     }
 
+    /**
+     * 显示dialog
+     */
     private void showProgressDialog(){
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
         }
     }
 
+    /**
+     * 消失dialog
+     */
     private void dismissProgressDialog(){
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();

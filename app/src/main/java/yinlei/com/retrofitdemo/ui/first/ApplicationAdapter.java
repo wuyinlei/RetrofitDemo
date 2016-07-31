@@ -30,8 +30,10 @@ import yinlei.com.retrofitdemo.navagation.NavigationDrawerAdapter;
 
 public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ViewHolder> {
 
-    private int mLayoutId;
     private List<AppInfo> mApplicaptions;
+
+    public ApplicationAdapter() {
+    }
 
     public ApplicationAdapter(List<AppInfo> applicaption) {
         mApplicaptions = applicaption;
@@ -77,6 +79,15 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         mApplicaptions.clear();
         mApplicaptions.addAll(appInfos);
         notifyDataSetChanged();
+    }
+
+    public void addData(int i, AppInfo appInfo) {
+        if (i<0){
+            i = 0;
+        }
+        mApplicaptions.add(i,appInfo);
+        notifyItemChanged(i);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

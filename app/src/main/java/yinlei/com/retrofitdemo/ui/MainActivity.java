@@ -21,6 +21,9 @@ import yinlei.com.retrofitdemo.ui.rx.RxFragment;
 import yinlei.com.retrofitdemo.ui.second.DistinctFragment;
 import yinlei.com.retrofitdemo.ui.second.FilterFragment;
 import yinlei.com.retrofitdemo.ui.second.TakeFragment;
+import yinlei.com.retrofitdemo.ui.third.GroupByFragment;
+import yinlei.com.retrofitdemo.ui.third.MapFragment;
+import yinlei.com.retrofitdemo.ui.third.ScanFragment;
 import yinlei.com.retrofitdemo.ui.user.UserFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationDrawerCallbacks {
@@ -140,6 +143,20 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerC
                         .replace(R.id.container,new DistinctFragment())
                         .commit();
                 break;
+            case 7:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container,new MapFragment())
+                        .commit();
+                break;
+            case 8:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container,new ScanFragment())
+                        .commit();
+                break;
+            case 9:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container,new GroupByFragment())
+                        .commit();
             default:
 
                 break;

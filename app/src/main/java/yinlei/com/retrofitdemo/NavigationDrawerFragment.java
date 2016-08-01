@@ -217,6 +217,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("TakeFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
         items.add(new NavigationItem("FilterFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
         items.add(new NavigationItem("DistinctFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("MapFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("ScanFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("GroupByFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
 
         //items.add(new NavigationItem("Filter",getResources().getDrawable(R.mipmap.ic_action_android)));
 

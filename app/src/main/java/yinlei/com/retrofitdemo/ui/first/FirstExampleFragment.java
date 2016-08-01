@@ -86,7 +86,7 @@ public class FirstExampleFragment extends Fragment {
         mSwipeRefreshLayout.setRefreshing(true);
         mRecyclerView.setVisibility(View.GONE);
 
-        getFileDir()
+        Utils.getFileDir()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(file -> {
@@ -116,7 +116,8 @@ public class FirstExampleFragment extends Fragment {
      * 请求数据
      */
     private void refreshTheList() {
-        getApps().toSortedList()
+        getApps().toList()
+                .distinct()
                 //.toSortedList()
                 //返回一个排序后的 list
                 .subscribe(new Observer<List<AppInfo>>() {
@@ -135,9 +136,10 @@ public class FirstExampleFragment extends Fragment {
                     @Override
                     public void onNext(List<AppInfo> appInfos) {
                         mRecyclerView.setVisibility(View.VISIBLE);
+                        storeList(appInfos);
+                        ApplicationsList.getInstance().setList(appInfos);
                         mAdapter.addData(appInfos);
                         //loadList(appInfos);
-                        storeList(appInfos);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
@@ -150,7 +152,7 @@ public class FirstExampleFragment extends Fragment {
      * @param appInfos
      */
     private void storeList(List<AppInfo> appInfos) {
-        ApplicationsList.getInstance().setList(appInfos);
+
         Schedulers.io().createWorker().schedule(() -> {
             SharedPreferences prefs = getActivity()
                     .getPreferences(Context.MODE_PRIVATE);
@@ -160,18 +162,18 @@ public class FirstExampleFragment extends Fragment {
         });
     }
 
-    /**
+  /*  *//**
      * 获取文件名
      *
      * @return
-     */
+     *//*
     private Observable<File> getFileDir() {
         return Observable.create(subscriber -> {
             subscriber.onNext(App.instance.getFilesDir());
             subscriber.onCompleted();
         });
     }
-
+*/
     /**
      * 获取数据
      *

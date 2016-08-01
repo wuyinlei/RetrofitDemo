@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import rx.Observable;
 import rx.schedulers.Schedulers;
 
 /**
@@ -194,5 +196,18 @@ public class Utils {
         }
         return millis;
     }
+
+    /**
+     * 获取文件名
+     *
+     * @return
+     */
+    public static Observable<File> getFileDir() {
+        return Observable.create(subscriber -> {
+            subscriber.onNext(App.instance.getFilesDir());
+            subscriber.onCompleted();
+        });
+    }
+
 
 }

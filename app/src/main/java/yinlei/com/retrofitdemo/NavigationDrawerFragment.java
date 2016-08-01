@@ -29,10 +29,13 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
+    //选择
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
+    //
     private static final String PREFERENCES_FILE = "my_app_settings"; //TODO: change this to your file
 
+    //回调
     private NavigationDrawerCallbacks mCallbacks;
 
     private RecyclerView mDrawerList;
@@ -45,8 +48,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     private boolean mUserLearnedDrawer;
 
+    //是否是有保存
     private boolean mFromSaveInstanceState;
 
+    //当前选择的位置
     private int mCurrentSelectedPosition;
 
     /**
@@ -129,12 +134,15 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         if (!mUserLearnedDrawer && !mFromSaveInstanceState) {
             mDrawerLayout.openDrawer(mFragmentContainerView);
         }
-        mDrawerLayout.post(new Runnable() {
+       /* mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
                 mActionBarDrawerToggle.syncState();
             }
-        });
+        });*/
+
+        mDrawerLayout.post(()->mActionBarDrawerToggle.syncState());
+
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
     }
 
@@ -206,6 +214,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("QiushiBaike", getResources().getDrawable(R.mipmap.ic_action_android)));
         items.add(new NavigationItem("UserDemo", getResources().getDrawable(R.mipmap.ic_action_android)));
         items.add(new NavigationItem("RxRetrofit", getResources().getDrawable(R.mipmap.ic_action_android)));
+        items.add(new NavigationItem("TakeFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("FilterFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("DistinctFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
 
         //items.add(new NavigationItem("Filter",getResources().getDrawable(R.mipmap.ic_action_android)));
 

@@ -18,6 +18,9 @@ import yinlei.com.retrofitdemo.navagation.NavigationDrawerCallbacks;
 import yinlei.com.retrofitdemo.ui.first.FirstExampleFragment;
 import yinlei.com.retrofitdemo.ui.qiushi.SecondExampleFragment;
 import yinlei.com.retrofitdemo.ui.rx.RxFragment;
+import yinlei.com.retrofitdemo.ui.second.DistinctFragment;
+import yinlei.com.retrofitdemo.ui.second.FilterFragment;
+import yinlei.com.retrofitdemo.ui.second.TakeFragment;
 import yinlei.com.retrofitdemo.ui.user.UserFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationDrawerCallbacks {
@@ -86,10 +89,9 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerC
 
     @Override
     public void onBackPressed() {
-        if (mNavigationDrawerFragment.isDrawerOpen()){
+        if (mNavigationDrawerFragment.isDrawerOpen()) {
             mNavigationDrawerFragment.closeDrawer();
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
 
@@ -98,29 +100,44 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerC
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getFragmentManager();
-        switch (position){
+        switch (position) {
             case 0:
 
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new FirstExampleFragment())
+                        .replace(R.id.container, new FirstExampleFragment())
                         .commit();
                 break;
             case 1:
 
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new SecondExampleFragment())
+                        .replace(R.id.container, new SecondExampleFragment())
                         .commit();
                 break;
 
             case 2:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new UserFragment())
+                        .replace(R.id.container, new UserFragment())
                         .commit();
                 break;
 
             case 3:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new RxFragment())
+                        .replace(R.id.container, new RxFragment())
+                        .commit();
+                break;
+            case 4:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new TakeFragment())
+                        .commit();
+                break;
+            case 5:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new FilterFragment())
+                        .commit();
+                break;
+            case 6:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container,new DistinctFragment())
                         .commit();
                 break;
             default:

@@ -27,9 +27,9 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     private NavigationDrawerCallbacks mNavigationDrawerCallbacks;
 
-    private int mSelectPosition;
+    private int mSelectPosition;  //选择
 
-    private int mTouchPosition = -1;
+    private int mTouchPosition = -1;  //按下触摸
 
     public NavigationDrawerAdapter(List<NavigationItem> data) {
         mData = data;
@@ -73,12 +73,12 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         });
 
         holder.itemView.setOnClickListener(view -> {
-            if (mNavigationDrawerCallbacks != null){
+            if (mNavigationDrawerCallbacks != null) {
                 mNavigationDrawerCallbacks.onNavigationDrawerItemSelected(position);
             }
         });
 
-        if (mSelectPosition == position || mTouchPosition == position){
+        if (mSelectPosition == position || mTouchPosition == position) {
             holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.selected_gray));
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -86,18 +86,26 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     }
 
 
+    /**
+     * 按下的位置
+     * @param position   位置
+     */
     private void touchPosition(int position) {
         int lastPosition = mTouchPosition;
         mTouchPosition = position;
-        if (lastPosition >= 0){
+        if (lastPosition >= 0) {
             notifyItemChanged(lastPosition);
         }
-        if (position>0){
+        if (position > 0) {
             notifyItemChanged(position);
         }
     }
 
-    public void selectPosition(int position){
+    /**
+     * 选择的item
+     * @param position   item位置
+     */
+    public void selectPosition(int position) {
         int lastPosition = mSelectPosition;
         mSelectPosition = position;
         notifyItemChanged(lastPosition);
@@ -106,7 +114,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     @Override
     public int getItemCount() {
-        return mData!=null?mData.size():0;
+        return mData != null ? mData.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

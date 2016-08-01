@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.UriMatcher;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -30,10 +29,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Observer;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import yinlei.com.retrofitdemo.App;
 import yinlei.com.retrofitdemo.R;
@@ -52,7 +49,7 @@ public class FirstExampleFragment extends Fragment {
 
     private File mFile;
 
-    private List<AppInfo> mAppInfos;
+    private List<AppInfo> mAppInfos = new ArrayList<>();
 
     private Handler mHandler = new Handler();
 
@@ -61,7 +58,6 @@ public class FirstExampleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first_example, container, false);
-        mAppInfos = new ArrayList<>();
         return view;
     }
 
@@ -109,9 +105,9 @@ public class FirstExampleFragment extends Fragment {
 
     private void initRecyclerView(View view) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-       mAdapter = new ApplicationAdapter(mAppInfos);
+        mAdapter = new ApplicationAdapter(new ArrayList<>());
         //mAdapter = new ApplicationAdapter();
-       // mAdapter.addData(mAppInfos);
+        // mAdapter.addData(mAppInfos);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -121,7 +117,6 @@ public class FirstExampleFragment extends Fragment {
      */
     private void refreshTheList() {
         getApps().toSortedList()
-                .take(4)
                 //.toSortedList()
                 //返回一个排序后的 list
                 .subscribe(new Observer<List<AppInfo>>() {
@@ -155,7 +150,7 @@ public class FirstExampleFragment extends Fragment {
      * @param appInfos
      */
     private void storeList(List<AppInfo> appInfos) {
-        mAppInfos = appInfos;
+        ApplicationsList.getInstance().setList(appInfos);
         Schedulers.io().createWorker().schedule(() -> {
             SharedPreferences prefs = getActivity()
                     .getPreferences(Context.MODE_PRIVATE);
@@ -225,7 +220,7 @@ public class FirstExampleFragment extends Fragment {
      * })
      * 我们传入一个新的Func1对象给filter()函数，Func1有一个AppInfo对象来作为他的参数类型并且返回
      * Boolean对象，只要条件符合filter()函数，就会返回true，此时，值会发出去并且所有的观察者都会接受到
-     *
+     * <p>
      * 当然我们也可以检测null
      */
     private void loadList(List<AppInfo> apps) {

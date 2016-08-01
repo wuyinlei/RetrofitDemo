@@ -32,8 +32,6 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
 
     private List<AppInfo> mApplicaptions;
 
-    public ApplicationAdapter() {
-    }
 
     public ApplicationAdapter(List<AppInfo> applicaption) {
         mApplicaptions = applicaption;
@@ -86,7 +84,7 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             i = 0;
         }
         mApplicaptions.add(i,appInfo);
-        notifyItemChanged(i);
+        notifyItemInserted(i);
 
     }
 

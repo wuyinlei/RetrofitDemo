@@ -220,6 +220,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         items.add(new NavigationItem("MapFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
         items.add(new NavigationItem("ScanFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
         items.add(new NavigationItem("GroupByFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("MergeFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("ZipFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("JoinFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("AndThenFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
+        items.add(new NavigationItem("CombineLatestFragment", getResources().getDrawable(R.mipmap.ic_action_wizard)));
 
         //items.add(new NavigationItem("Filter",getResources().getDrawable(R.mipmap.ic_action_android)));
 

@@ -12,10 +12,15 @@ import android.widget.FrameLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import yinlei.com.retrofitdemo.BuildConfig;
-import yinlei.com.retrofitdemo.R;
 import yinlei.com.retrofitdemo.NavigationDrawerFragment;
+import yinlei.com.retrofitdemo.R;
 import yinlei.com.retrofitdemo.navagation.NavigationDrawerCallbacks;
 import yinlei.com.retrofitdemo.ui.first.FirstExampleFragment;
+import yinlei.com.retrofitdemo.ui.four.AndThenFragment;
+import yinlei.com.retrofitdemo.ui.four.CombineLatestFragment;
+import yinlei.com.retrofitdemo.ui.four.JoinFragment;
+import yinlei.com.retrofitdemo.ui.four.MergeFragment;
+import yinlei.com.retrofitdemo.ui.four.ZipFragment;
 import yinlei.com.retrofitdemo.ui.qiushi.SecondExampleFragment;
 import yinlei.com.retrofitdemo.ui.rx.RxFragment;
 import yinlei.com.retrofitdemo.ui.second.DistinctFragment;
@@ -140,23 +145,51 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerC
                 break;
             case 6:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new DistinctFragment())
+                        .replace(R.id.container, new DistinctFragment())
                         .commit();
                 break;
             case 7:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new MapFragment())
+                        .replace(R.id.container, new MapFragment())
                         .commit();
                 break;
             case 8:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new ScanFragment())
+                        .replace(R.id.container, new ScanFragment())
                         .commit();
                 break;
             case 9:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container,new GroupByFragment())
+                        .replace(R.id.container, new GroupByFragment())
                         .commit();
+                break;
+            case 10:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new MergeFragment())
+                        .commit();
+                break;
+            case 11:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new ZipFragment())
+                        .commit();
+                break;
+
+            case 12:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new JoinFragment())
+                        .commit();
+
+                break;
+            case 13:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new CombineLatestFragment())
+                        .commit();
+                break;
+            case 14:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new AndThenFragment())
+                        .commit();
+                break;
             default:
 
                 break;

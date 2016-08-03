@@ -20,6 +20,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import yinlei.com.retrofitdemo.R;
 import yinlei.com.retrofitdemo.ui.first.AppInfo;
 import yinlei.com.retrofitdemo.ui.first.ApplicationAdapter;
@@ -89,7 +91,8 @@ public class CombineLatestFragment extends Fragment {
                 .interval(1500, TimeUnit.MILLISECONDS);
 
 
-        Observable.combineLatest(appInfoObservable, tictoc, this::updateTitle).subscribe(new Subscriber<AppInfo>() {
+        Observable.combineLatest(appInfoObservable, tictoc, this::updateTitle).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AppInfo>() {
             @Override
             public void onCompleted() {
                 mSwipeRefreshLayout.setRefreshing(false);

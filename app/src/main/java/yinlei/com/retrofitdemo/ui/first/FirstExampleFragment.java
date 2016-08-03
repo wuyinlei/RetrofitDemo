@@ -118,6 +118,9 @@ public class FirstExampleFragment extends Fragment {
     private void refreshTheList() {
         getApps().toList()
                 .distinct()
+                .onBackpressureBuffer()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 //.toSortedList()
                 //返回一个排序后的 list
                 .subscribe(new Observer<List<AppInfo>>() {
@@ -207,6 +210,7 @@ public class FirstExampleFragment extends Fragment {
 
         });
     }
+
 
     /**
      * 过滤系列，我们可以利用filter()方法来过滤我们观测序列中不想要的值例如我们只想要开头是C的应用

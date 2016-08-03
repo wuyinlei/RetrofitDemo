@@ -24,6 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.joins.Pattern2;
 import rx.joins.Plan0;
 import rx.observables.JoinObservable;
+import rx.schedulers.Schedulers;
 import yinlei.com.retrofitdemo.R;
 import yinlei.com.retrofitdemo.ui.first.AppInfo;
 import yinlei.com.retrofitdemo.ui.first.ApplicationAdapter;
@@ -89,15 +90,17 @@ public class AndThenFragment extends Fragment {
 
         Observable<AppInfo> appInfoObservable = Observable.from(apps);
 
-        Observable<Long> ticto = Observable.interval(1, TimeUnit.SECONDS);
+        Observable<Long> tictoc = Observable.interval(1, TimeUnit.SECONDS);
 
         Pattern2<AppInfo, Long> pattern2 =
-                JoinObservable.from(appInfoObservable).and(ticto);
+                JoinObservable.from(appInfoObservable).and(tictoc);
 
         Plan0<AppInfo> plan = pattern2.then(this::updateTitle);
 
-        JoinObservable.when(plan)
+        JoinObservable
+                .when(plan)
                 .toObservable()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<AppInfo>() {
                     @Override

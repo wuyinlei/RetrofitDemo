@@ -42,6 +42,8 @@ public class Utils {
         return bitmap;
     }
 
+
+
     public static void storeBitmap(Context context, Bitmap bitmap, String filename) {
         Schedulers.io().createWorker().schedule(() -> {
             blockingStoreBitmap(context, bitmap, filename);

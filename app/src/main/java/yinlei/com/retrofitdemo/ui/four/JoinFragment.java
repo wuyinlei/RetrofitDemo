@@ -20,6 +20,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import yinlei.com.retrofitdemo.R;
 import yinlei.com.retrofitdemo.ui.first.AppInfo;
 import yinlei.com.retrofitdemo.ui.first.ApplicationAdapter;
@@ -88,7 +90,9 @@ public class JoinFragment extends Fragment {
          */
 
         appSequence.join(tictoc, appInfo -> Observable.timer(2, TimeUnit.SECONDS)
-                , time -> Observable.timer(0, TimeUnit.SECONDS), this::updateTitle).subscribe(new Subscriber<AppInfo>() {
+                , time -> Observable.timer(0, TimeUnit.SECONDS), this::updateTitle)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<AppInfo>() {
             @Override
             public void onCompleted() {
                 mSwipeRefreshLayout.setRefreshing(false);
